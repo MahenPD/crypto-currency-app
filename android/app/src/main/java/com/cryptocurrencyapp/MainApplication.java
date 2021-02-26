@@ -47,6 +47,14 @@ public class MainApplication extends Application implements ReactApplication {
       return packages;
     }
 
+    // @Override
+    // protected List<ReactPackage> getPackages() {
+    //     return Arrays.<ReactPackage>asList(
+    //     new ModuleRegistryAdapter(mModuleRegistryProvider),
+    //     new SplashScreenReactPackage()  //here
+    //     );
+    // }
+
     @Override
     protected String getJSMainModuleName() {
       return "index";

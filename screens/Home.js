@@ -9,13 +9,17 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import { PriceAlert, TransactionHistory } from "../components";
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
 
 const Home = ({ navigation }) => {
   const [trending, setTrending] = useState(dummyData.trendingCurrencies);
+  const [transactionHistory, setTransactionHistory] = useState(
+    dummyData.transactionHistory
+  );
 
   function renderHeader() {
-    const renderItem = ({ item, index }) => {
+    const renderItem = ({ item, index }) => (
       <TouchableOpacity
         style={{
           width: 180,
@@ -26,8 +30,40 @@ const Home = ({ navigation }) => {
           borderRadius: 10,
           backgroundColor: COLORS.white,
         }}
-      ></TouchableOpacity>;
-    };
+      >
+        <View style={{ flexDirection: "row" }}>
+          <View>
+            <Image
+              source={item.image}
+              resizeMode="cover"
+              style={{ marginTop: 5, width: 25, height: 25 }}
+            />
+          </View>
+          <View
+            style={{
+              marginLeft: SIZES.base,
+            }}
+          >
+            <Text style={{ ...FONTS.h2 }}>{item.currency}</Text>
+            <Text style={{ color: COLORS.gray, ...FONTS.body3 }}>
+              {item.code}
+            </Text>
+          </View>
+        </View>
+
+        <View style={{ marginTop: SIZES.radius }}>
+          <Text style={{ ...FONTS.h2 }}>${item.amount}</Text>
+          <Text
+            style={{
+              color: item.type === "I" ? COLORS.green : COLORS.red,
+              ...FONTS.h3,
+            }}
+          >
+            {item.changes}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
 
     return (
       <View style={{ width: "100%", height: 290, ...styles.shadow }}>
@@ -39,7 +75,7 @@ const Home = ({ navigation }) => {
           {/* Header Part of the App */}
           <View
             style={{
-              marginTop: SIZES.padding * 2,
+              marginTop: SIZES.padding,
               width: "100%",
               alignItems: "flex-end",
               paddingHorizontal: SIZES.padding,
@@ -76,7 +112,7 @@ const Home = ({ navigation }) => {
           </View>
 
           {/* Trending Section with all the new scoops */}
-          <View style={{ position: "absolute", bottom: "-30&" }}>
+          <View style={{ position: "absolute", bottom: -50 }}>
             <Text
               style={{
                 marginLeft: SIZES.padding,
@@ -101,9 +137,72 @@ const Home = ({ navigation }) => {
     );
   }
 
+  function renderAlert() {
+    return <PriceAlert />;
+  }
+
+  function renderNotice() {
+    return (
+      <View
+        style={{
+          marginTop: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+          padding: 20,
+          borderRadius: SIZES.radius,
+          backgroundColor: COLORS.secondary,
+          ...styles.shadow,
+        }}
+      >
+        <Text style={{ color: COLORS.white, ...FONTS.h3 }}>
+          Investing Safety
+        </Text>
+        <Text
+          style={{
+            marginTop: SIZES.base,
+            color: COLORS.white,
+            ...FONTS.body4,
+            lineHeight: 18,
+          }}
+        >
+          Its very difficult to take an investment, especially when the market
+          is volatile, Learn how to use dollar cost averaging to your advantage
+        </Text>
+
+        <TouchableOpacity
+          style={{ marginTop: SIZES.base }}
+          onPress={() => console.log("Learn More")}
+        >
+          <Text
+            style={{
+              textDecorationLine: "underline",
+              color: COLORS.green,
+              ...FONTS.h3,
+            }}
+          >
+            Learn More
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function renderTransactionHistory() {
+    return (
+      <TransactionHistory
+        customContainerStyle={{ ...styles.shadow }}
+        history={transactionHistory}
+      />
+    );
+  }
+
   return (
     <ScrollView>
-      <View style={{ flex: 1, paddingBottom: 130 }}>{renderHeader()}</View>
+      <View style={{ flex: 1, paddingBottom: 130 }}>
+        {renderHeader()}
+        {renderAlert()}
+        {renderNotice()}
+        {renderTransactionHistory()}
+      </View>
     </ScrollView>
   );
 };
