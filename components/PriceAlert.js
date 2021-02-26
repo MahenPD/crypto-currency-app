@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
-import { round, sin } from "react-native-reanimated";
 import { COLORS, SIZES, FONTS, icons } from "../constants";
 
 const PriceAlert = ({ customContainerStyle }) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import { PriceAlert, TransactionHistory } from "../components";
 import { dummyData, COLORS, SIZES, FONTS, icons, images } from "../constants";
@@ -17,6 +18,10 @@ const Home = ({ navigation }) => {
   const [transactionHistory, setTransactionHistory] = useState(
     dummyData.transactionHistory
   );
+
+  useEffect(() => {
+    LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+  }, []);
 
   function renderHeader() {
     const renderItem = ({ item, index }) => (
@@ -30,6 +35,11 @@ const Home = ({ navigation }) => {
           borderRadius: 10,
           backgroundColor: COLORS.white,
         }}
+        onPress={() =>
+          navigation.navigate("CryptoDetail", {
+            currency: item,
+          })
+        }
       >
         <View style={{ flexDirection: "row" }}>
           <View>
